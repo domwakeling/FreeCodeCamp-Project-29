@@ -1,0 +1,123 @@
+$navbar__bgcolor: $color__project-theme;
+$navbar__bgcolor-selected: darken($navbar__bgcolor, 10%);
+$navbar__color: $color__project-inverse;
+$navbar__link-color: $color__project-inverse;
+
+.topNav {
+    /* background & basic colors */
+    color: $navbar__color;
+    background-color: $navbar__bgcolor;
+    min-height: 2.6em;
+    margin-bottom: 0.4em;
+
+    /* fix spacing issues so navbar height is correct */
+    line-height: 1.0;
+
+    /* basic styling for links */
+    a {
+        float: left;
+        text-decoration: none !important;
+        color: $navbar__link-color;
+        padding: 0.8em 0.8em;
+
+        /* add feature color to current page, using NavLink from React-Router */
+        &.selectedPage {
+            background-color: $navbar__bgcolor-selected;
+        }
+
+        /* hide everything except first link (brand) when in small mode */
+        &:not(:first-child) {
+            @include for-phone-only {
+                display: none;
+            }
+        }
+
+        /* align first link (brand) and last (sign-in or hamburger) edges of container */
+        &:first-child {
+            padding-left: 0;
+        }
+        &:last-child {
+            padding-right: 0;
+        }
+    }
+
+    /* .icon is the hamburger button, .icon-bar are the hamburger bars */
+    .icon {
+        width: 40px;
+        margin: 0.6em 0 0 0;
+        padding: 1px 8px;
+        background-color: $navbar__bgcolor;
+        border: 1px solid $navbar__color;
+        border-radius: 4px 4px 4px 4px;
+        float: right;
+        display: block;
+
+        &:hover {
+            background-color: $navbar__bgcolor-selected;
+        }
+
+        /* if not on a small screen, don't display */
+        @include for-tablet-portrait-up {
+            display: none;
+        }
+
+        .icon-bar {
+            background-color: $navbar__color;
+            border-radius: 2px 2px 2px 2px;
+            height: 2px;
+            margin: 0.4em 0;
+            width: 100%;
+        }
+    }
+
+    /* float the 'sign in' / 'username' field to the right in general use, fix (absolute)
+     * but move to the left by width of the hamburger (.icon, above) on small screens */
+    #login-buttons {
+        float: right;
+        @include for-phone-only {
+            position: absolute;
+            right: 60px;
+            top: 0
+        }
+    }
+
+    /* responsive activated when the screen is small and hamburger clicked; ensure only active
+     * when on small screen, make links display one per row, ensure the icon stays top right */
+    &.responsive {
+        @include for-phone-only {
+            position: relative;
+            a {
+                float: none;
+                display: block;
+                text-align: left;
+                /* faint border between menu lines, miss first child to avoid brand */
+                &:not(:first-child) {
+                    border-top: darken($color__project-theme, 4%) 1px solid;
+                }
+            }
+            .icon {
+                position: absolute;
+                right: $structure__font-pad_horiz;
+                top: 0;
+            }
+        }
+    }
+}
+
+/* specific override for the login box, breaks text color otherwise;
+ * also nice to make it look a little better */
+a.login-close-text, a#signup-link {
+    color: $color__project-theme;
+    text-decoration: underline !important;
+}
+
+/* and change the background color of all the related buttons ... */
+.login-button {
+    background-color: $color__project-theme !important;
+}
+
+/* specific override for the modal now that login is right-aligned */
+div#login-dropdown-list.accounts-dialog {
+    left: -160px;
+    top: 15px;
+}

@@ -1,5 +1,5 @@
 {
-  "name": "FCC29_Trading",
+  "name": "fcc29_trading",
   "private": true,
   "scripts": {
     "start": "meteor run"
