@@ -2,12 +2,12 @@ $color__project-theme: #78C21E;
 // $color__project-contrast: hsl(33, 89%, 55%);
 $color__project-inverse: lighten($color__project-theme, 68%);
 
-$color__bg-color: lighten($color__project-theme, 51%);
+$color__bg-color: lighten($color__project-theme, 53%);
 $color__mid-grey: #666;
 // $color__light-grey: #aaa;
 $color__dark-grey: #333;
 
-$color__body-font-color: darken($color__project-theme, 25%);
-$color__title-font-color: darken($color__project-theme, 0%);
-$color__link-font-color: $color__project-theme;
+$color__body-font-color: darken($color__project-theme, 28%);
+$color__title-font-color: $color__project-theme;
+$color__link-font-color: desaturate($color__project-theme, 3%);
 $color__link-font-color-alt: darken($color__project-theme, 10%);

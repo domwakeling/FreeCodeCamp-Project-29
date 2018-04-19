@@ -58,7 +58,7 @@ export default class App extends React.Component {
                             <Route component={NoMatch} />
                         </Switch>
                         <Copyright
-                            from="2018"
+                            from="2017"
                             who="Dom Wakeling"
                             link="http://www.domwakeling.com"
                         />

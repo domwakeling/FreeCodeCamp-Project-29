@@ -11,7 +11,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
         {...rest}
         render={props =>
             // TODO: THIS NEEDS TO RELATE TO METEOR.USERID ONCE SET UP
-            (true ? (
+            (false ? (
                 <Component {...props} />
             ) : (
                 <Redirect

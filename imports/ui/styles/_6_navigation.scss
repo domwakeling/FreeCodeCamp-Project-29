@@ -1,5 +1,5 @@
 $navbar__bgcolor: $color__project-theme;
-$navbar__bgcolor-selected: darken($navbar__bgcolor, 10%);
+$navbar__bgcolor-selected: desaturate($navbar__bgcolor, 15%);
 $navbar__color: $color__project-inverse;
 $navbar__link-color: $color__project-inverse;
 
