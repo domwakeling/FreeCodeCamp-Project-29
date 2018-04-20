@@ -2,7 +2,12 @@ import React from 'react';
 
 import AccountsWrapper from '../components/AccountsWrapper.jsx';
 
-export default class Login extends React.Component {
+export default class Reset extends React.Component {
+    componentDidMount() {
+        /* eslint-disable-next-line no-undef */
+        AccountsTemplates.setState('resetPwd');
+    }
+
     render() {
         return (
             <div>

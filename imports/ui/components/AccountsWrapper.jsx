@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Template } from 'meteor/templating';
 import { Blaze } from 'meteor/blaze';
 
-export default class AccountsModalWrapper extends Component {
+export default class AccountsWrapper extends Component {
     constructor(props) {
         super(props);
         this.container = React.createRef();
