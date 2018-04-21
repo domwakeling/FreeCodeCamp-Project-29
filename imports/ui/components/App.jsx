@@ -3,11 +3,12 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import PrivateRoute from './PrivateRoute.jsx';
 import Copyright from './Copyright.jsx';
-import NavBar from './NavBar.jsx';
+import NavBarWithRouter from './NavBar.jsx';
 
 import Home from '../pages/Home.jsx';
 import About from '../pages/About.jsx';
 import Topics from '../pages/Topics.jsx';
+import AccountPage from '../pages/AccountPage.jsx';
 import Login from '../pages/Login.jsx';
 import Signup from '../pages/Signup.jsx';
 import NoMatch from '../pages/NoMatch.jsx';
@@ -37,7 +38,7 @@ export default class App extends React.Component {
         return (
             <Router>
                 <div>
-                    <NavBar
+                    <NavBarWithRouter
                         clickCallback={this.clickHandler}
                         navbarRef={navbarRef}
                         hamburgerRef={hamburgerRef}
@@ -48,6 +49,7 @@ export default class App extends React.Component {
                             <Route exact path="/" component={Home} />
                             <PrivateRoute path="/about" component={About} />
                             <PrivateRoute path="/topics" component={Topics} />
+                            <PrivateRoute path="/account" component={AccountPage} />
                             <Route path="/login" component={Login} />
                             <Route path="/signup" component={Signup} />
                             <Route component={NoMatch} />

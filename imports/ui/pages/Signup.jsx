@@ -6,8 +6,10 @@ import { Accounts } from 'meteor/accounts-base';
 export default class Signup extends React.Component {
     handleSubmit(event) {
         event.preventDefault();
+
         const email = document.getElementById('signup-email').value;
         const password = document.getElementById('signup-password').value;
+
         Accounts.createUser({ email, password }, (err) => {
             if (err) {
                 // display error message on screen
@@ -19,6 +21,7 @@ export default class Signup extends React.Component {
             }
         });
     }
+
     render() {
         this.handleSubmit = this.handleSubmit.bind(this);
         return (
