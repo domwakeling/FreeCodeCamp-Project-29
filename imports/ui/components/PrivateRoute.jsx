@@ -3,15 +3,14 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-// import { Meteor } from 'meteor/meteor';
+import { Meteor } from 'meteor/meteor';
 import { Route, Redirect } from 'react-router-dom';
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
     <Route
         {...rest}
         render={props =>
-            // TODO: THIS NEEDS TO RELATE TO METEOR.USERID ONCE SET UP
-            (false ? (
+            (Meteor.userId() ? (
                 <Component {...props} />
             ) : (
                 <Redirect

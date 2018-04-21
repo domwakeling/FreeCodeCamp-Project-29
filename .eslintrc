@@ -26,6 +26,7 @@
     "react/jsx-filename-extension": ["warn", { "extensions": [ ".js", ".jsx"] } ],
     "react/jsx-indent": ["error", 4],
     "react/jsx-indent-props": ["error", 4],
-    "react/prefer-stateless-function": "off"
+    "react/prefer-stateless-function": "off",
+    "jsx-a11y/anchor-is-valid": ["error", { "components": ["Link"], "specialLink": ["to"] }]
   }
 }

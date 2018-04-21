@@ -1,14 +1,15 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, NavLink, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
-// import AccountsUIWrapper from './AccountsUIWrapper.js';
 import PrivateRoute from './PrivateRoute.jsx';
 import Copyright from './Copyright.jsx';
+import NavBar from './NavBar.jsx';
 
 import Home from '../pages/Home.jsx';
 import About from '../pages/About.jsx';
 import Topics from '../pages/Topics.jsx';
 import Login from '../pages/Login.jsx';
+import Signup from '../pages/Signup.jsx';
 import NoMatch from '../pages/NoMatch.jsx';
 
 export default class App extends React.Component {
@@ -31,23 +32,16 @@ export default class App extends React.Component {
 
     render() {
         this.clickHandler = this.clickHandler.bind(this);
+        const navbarRef = this.navbar;
+        const hamburgerRef = this.hamburger;
         return (
             <Router>
                 <div>
-                    <div ref={this.navbar} className="topNav">
-                        <div className="topNavContainer">
-                            <a href="/" className="navBrand">Brand</a>
-                            <NavLink exact to="/" activeClassName="selectedPage">Home</NavLink>
-                            <NavLink to="/about" activeClassName="selectedPage">About</NavLink>
-                            <NavLink to="/topics" activeClassName="selectedPage">Topics</NavLink>
-                            <button ref={this.hamburger} className="icon" onClick={this.clickHandler}>
-                                <div className="icon-bar" />
-                                <div className="icon-bar" />
-                                <div className="icon-bar" />
-                            </button>
-                            {/* <AccountsUIWrapper /> */}
-                        </div>
-                    </div>
+                    <NavBar
+                        clickCallback={this.clickHandler}
+                        navbarRef={navbarRef}
+                        hamburgerRef={hamburgerRef}
+                    />
 
                     <div className="clearfix container">
                         <Switch>
@@ -55,6 +49,7 @@ export default class App extends React.Component {
                             <PrivateRoute path="/about" component={About} />
                             <PrivateRoute path="/topics" component={Topics} />
                             <Route path="/login" component={Login} />
+                            <Route path="/signup" component={Signup} />
                             <Route component={NoMatch} />
                         </Switch>
                         <Copyright
