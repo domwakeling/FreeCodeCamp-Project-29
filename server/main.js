@@ -6,4 +6,7 @@ import { Meteor } from 'meteor/meteor';
 import '../imports/startup/userAccounts.js';
 
 Meteor.startup(() => {
+    Accounts.urls.resetPassword = function (token) {
+        return Meteor.absoluteUrl('reset-password/' + token);
+    };
 });

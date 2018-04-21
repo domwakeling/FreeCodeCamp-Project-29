@@ -4,6 +4,10 @@ import { Email } from 'meteor/email';
 import { Accounts } from 'meteor/accounts-base';
 // import history from './history.js';
 
+// const mySubmitFunc = function(error, state) {
+//     console.log("State:", state);
+// };
+
 // Server: Define a method that the client can call.
 if (Meteor.isServer) {
     Meteor.methods({
@@ -35,13 +39,22 @@ if (Meteor.isServer) {
     // };
 }
 
-if (Meteor.isClient) {
-    Accounts.onResetPasswordLink((token, done) => {
-        const url = '/reset-password/' + token;
-        history.pushState({}, '', url);
-        // done();
-    });
-}
+// if (Meteor.isClient) {
+//     Accounts.onResetPasswordLink((token, done) => {
+//         const url = '/reset-password/' + token;
+//         history.pushState({}, '', url);
+
+//         Accounts.resetPassword(token, "newPassword", (err) => {
+//             if (err) {
+//                 // Display error
+//             } else {
+//                 // Resume normal operation
+//                 done();
+//             }
+//         });
+
+//     });
+// }
 
 /* eslint-disable-next-line no-undef */
 AccountsTemplates.configure({
@@ -56,7 +69,7 @@ AccountsTemplates.configure({
 
     // Appearance
     // showAddRemoveServices: false,
-    showForgotPasswordLink: true
+    showForgotPasswordLink: true,
     // showLabels: true,
     // showPlaceholders: true,
     // showResendVerificationEmailLink: false,
