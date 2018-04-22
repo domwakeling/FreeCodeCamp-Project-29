@@ -12,6 +12,7 @@ import AccountPage from '../pages/AccountPage.jsx';
 import Login from '../pages/Login.jsx';
 import Signup from '../pages/Signup.jsx';
 import NoMatch from '../pages/NoMatch.jsx';
+import AccountEmail from '../pages/AccountEmail.jsx';
 
 export default class App extends React.Component {
     constructor(props) {
@@ -52,6 +53,7 @@ export default class App extends React.Component {
                             <PrivateRoute path="/account" component={AccountPage} />
                             <Route path="/login" component={Login} />
                             <Route path="/signup" component={Signup} />
+                            <Route path="/verify-email/:token" component={AccountEmail} />
                             <Route component={NoMatch} />
                         </Switch>
                         <Copyright

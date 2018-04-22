@@ -2,31 +2,17 @@ import React from 'react';
 import { Meteor } from 'meteor/meteor';
 import { PropTypes } from 'prop-types';
 import { NavLink, withRouter } from 'react-router-dom';
-// import { withRouter } from 'react-router-dom';
 
-// export default class NavBar extends React.Component {
+import SignInOut from './SignInOut.jsx';
+
 class NavBar extends React.Component {
-    clickHandler(event) {
+    burgerClickHandler(event) {
         event.preventDefault();
         this.props.clickCallback(event);
     }
 
-    signInOutHandler(event) {
-        event.preventDefault();
-        if (Meteor.userId()) {
-            Meteor.logout(() => {
-                // call the push as a callback to ensure that Meteor.userId() has updated
-                this.props.history.push('/');
-            });
-            this.forceUpdate();
-        } else {
-            this.props.history.push('/login');
-        }
-    }
-
     render() {
-        this.clickHandler = this.clickHandler.bind(this);
-        this.signInOutHandler = this.signInOutHandler.bind(this);
+        this.burgerClickHandler = this.burgerClickHandler.bind(this);
         return (
             <div ref={this.props.navbarRef} className="topNav">
                 <div className="topNavContainer">
@@ -34,16 +20,20 @@ class NavBar extends React.Component {
                     <NavLink exact to="/" activeClassName="selectedPage">Home</NavLink>
                     <NavLink to="/about" activeClassName="selectedPage">About</NavLink>
                     <NavLink to="/topics" activeClassName="selectedPage">Topics</NavLink>
-                    { Meteor.userId() ? (<NavLink to="/account" activeClassName="selectedPage">Account</NavLink>) : ''}
-                    <button ref={this.props.hamburgerRef} className="icon" onClick={this.clickHandler}>
+                    { Meteor.userId() ?
+                        (<NavLink to="/account" activeClassName="selectedPage">Account</NavLink>) :
+                        ('')
+                    }
+                    <button
+                        ref={this.props.hamburgerRef}
+                        className="icon"
+                        onClick={this.burgerClickHandler}
+                    >
                         <div className="icon-bar" />
                         <div className="icon-bar" />
                         <div className="icon-bar" />
                     </button>
-                    {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                    <a href="#" onClick={this.signInOutHandler}>
-                        { Meteor.userId() ? 'Sign out' : 'Sign in'}
-                    </a>
+                    <SignInOut history={this.props.history} />
                 </div>
             </div>
         );
@@ -66,3 +56,4 @@ NavBar.propTypes = {
 const NavBarWithRouter = withRouter(NavBar);
 
 export default NavBarWithRouter;
+
