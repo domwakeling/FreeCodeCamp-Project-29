@@ -30,13 +30,11 @@ export default class AccountEmail extends React.Component {
     }
 
     render() {
-        const title = this.state.mode === 'verify-email' ? 'Verify Email' : 'Reset Email';
+        const title = this.state.mode === 'verify-email' ? 'Verify Email' : 'Reset Password';
 
         return (
             <div>
                 <h2>{title}</h2>
-                <p>Mode: {this.state.mode}</p>
-                <p>Token: {this.state.token}</p>
                 <div id="errorState" />
                 <div id="successState" />
             </div>

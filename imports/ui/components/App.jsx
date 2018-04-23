@@ -54,6 +54,7 @@ export default class App extends React.Component {
                             <Route path="/login" component={Login} />
                             <Route path="/signup" component={Signup} />
                             <Route path="/verify-email/:token" component={AccountEmail} />
+                            <Route path="/reset-password/:token" component={AccountEmail} />
                             <Route component={NoMatch} />
                         </Switch>
                         <Copyright

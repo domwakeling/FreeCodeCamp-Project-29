@@ -4,7 +4,25 @@ import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
 
 class AccountPage extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            emailSent: false
+        };
+    }
+
+    clickHandler(event) {
+        event.preventDefault();
+        const userId = Meteor.userId();
+        const email = this.props.user.emails[0].address;
+        Meteor.call('accounts.verify', userId, email);
+        this.setState({
+            emailSent: true
+        });
+    }
+
     render() {
+        this.clickHandler = this.clickHandler.bind(this);
         return (
             <div>
                 <h2>Account</h2>
@@ -13,10 +31,21 @@ class AccountPage extends React.Component {
                 {this.props.user ? (
                     <div>
                         {this.props.user.emails && this.props.user.emails[0].verified ? (
-                            <p>Account verified</p>
+                            <p>Account verified.</p>
                         ) : (
-                            <p>Account not verified</p>
+                            <div>
+                                <p>Account not verified.</p>
+                                {this.state.emailSent ? (
+                                    <p>Verification email sent, please check your inbox.</p>
+                                ) : (
+                                    <button onClick={this.clickHandler}>
+                                        Resend verification email
+                                    </button>
+                                )}
+                            </div>
                         )}
+                        <hr />
+                        <p>TODO: add more personal info here</p>
                     </div>
                 ) : <p>Loading...</p>}
             </div>
