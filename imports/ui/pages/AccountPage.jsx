@@ -1,24 +1,37 @@
 import React from 'react';
+import { Meteor } from 'meteor/meteor';
+import { withTracker } from 'meteor/react-meteor-data';
+import PropTypes from 'prop-types';
 
-export default class AccountPage extends React.Component {
+class AccountPage extends React.Component {
     render() {
         return (
             <div>
                 <h2>Account</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris quis ligula
-                    varius, facilisis nunc quis, imperdiet urna. Cras pharetra pharetra accumsan.
-                    Vivamus augue velit, commodo ut leo in, ullamcorper lobortis ligula. Maecenas
-                    aliquam sagittis vulputate. Ut ligula lorem, iaculis id sodales ut, gravida in
-                    metus. Integer lacinia sem mauris, et mollis massa pellentesque vitae. Nam
-                    ipsum augue, dignissim et odio sit amet, pharetra bibendum diam. Nunc aliquet
-                    sed libero et convallis. Aliquam ultricies odio at augue pharetra, nec auctor
-                    tellus eleifend. Praesent a enim egestas, posuere ligula vitae, facilisis neque.
-                    Donec ut suscipit neque. Aenean placerat leo ut auctor convallis. Donec accumsan
-                    ligula ut augue sodales lobortis. Vestibulum mollis, tortor auctor faucibus
-                    vulputate, odio elit scelerisque sem, eget rhoncus est nulla quis sem. Duis
-                    quis mattis lacus.
-                </p>
+                {/* ternerary wrapper so will show 'loading' until user loads; safe because this
+                  * page is wrapped in a <PrivateRoute> so will never show if not logged in  */}
+                {this.props.user ? (
+                    <div>
+                        {this.props.user.emails && this.props.user.emails[0].verified ? (
+                            <p>Account verified</p>
+                        ) : (
+                            <p>Account not verified</p>
+                        )}
+                    </div>
+                ) : <p>Loading...</p>}
             </div>
         );
     }
 }
+
+AccountPage.propTypes = {
+    user: PropTypes.shape()
+};
+
+AccountPage.defaultProps = {
+    user: null
+};
+
+export default withTracker(() => ({
+    user: Meteor.user()
+}))(AccountPage);

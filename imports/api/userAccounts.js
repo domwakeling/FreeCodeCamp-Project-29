@@ -10,4 +10,20 @@ if (Meteor.isServer) {
             Accounts.sendVerificationEmail(userId, email);
         }
     });
+
+    Accounts.emailTemplates.resetPassword.text = (user, url) => {
+        const newURL = url.replace('/#', '');
+        let retStr = 'Hello,\n\nTo verify you account email, simply click the link below.\n\n';
+        /* eslint-disable-next-line prefer-template */
+        retStr = retStr + newURL + '\n\nThanks.';
+        return retStr;
+    };
+
+    Accounts.emailTemplates.verifyEmail.text = (user, url) => {
+        const newURL = url.replace('/#', '');
+        let retStr = 'Hello,\n\nTo verify you account email, simply click the link below.\n\n';
+        /* eslint-disable-next-line prefer-template */
+        retStr = retStr + newURL + '\n\nThanks.';
+        return retStr;
+    };
 }

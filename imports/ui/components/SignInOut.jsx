@@ -6,8 +6,11 @@ import PropTypes from 'prop-types';
 class SignInOut extends React.Component {
     signInOutHandler(event) {
         event.preventDefault();
-        if (Meteor.userId()) {
-            this.props.history.push('/');
+        if (this.props.userId) {
+            Meteor.logout(() => {
+                // as a callback so that Meteor.usedId() = null before rendering root
+                this.props.history.push('/');
+            });
         } else {
             this.props.history.push('/login');
         }
