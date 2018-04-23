@@ -11,14 +11,16 @@ export default class PasswordForm extends React.Component {
                     className="form col-md-12 center-block"
                     onSubmit={this.props.submitHandler}
                 >
-                    <div className="form-group">
-                        <input
-                            type="email"
-                            id="field-email"
-                            className="form-control input-lg"
-                            placeholder="email"
-                        />
-                    </div>
+                    {this.props.emailField ? (
+                        <div className="form-group">
+                            <input
+                                type="email"
+                                id="field-email"
+                                className="form-control input-lg"
+                                placeholder="email"
+                            />
+                        </div>
+                    ) : ''}
                     <div className="form-group">
                         <input
                             type="password"
@@ -63,7 +65,8 @@ PasswordForm.propTypes = {
     linkTo: PropTypes.string,
     linkText: PropTypes.string,
     secondPassword: PropTypes.bool,
-    submitHandler: PropTypes.func.isRequired
+    submitHandler: PropTypes.func.isRequired,
+    emailField: PropTypes.bool
 };
 
 PasswordForm.defaultProps = {
@@ -71,5 +74,6 @@ PasswordForm.defaultProps = {
     messageText: 'message',
     linkTo: '/',
     linkText: 'link',
-    secondPassword: false
+    secondPassword: false,
+    emailField: true
 };
