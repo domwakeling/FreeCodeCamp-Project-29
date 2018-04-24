@@ -6,11 +6,7 @@ export default class PasswordForm extends React.Component {
     render() {
         return (
             <div>
-                <form
-                    id="password-form"
-                    className="form col-md-12 center-block"
-                    onSubmit={this.props.submitHandler}
-                >
+                <form onSubmit={this.props.submitHandler}>
                     {this.props.emailField ? (
                         <div>
                             <input

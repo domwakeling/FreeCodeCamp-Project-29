@@ -2,6 +2,7 @@ import React from 'react';
 import { Meteor } from 'meteor/meteor';
 import PropTypes from 'prop-types';
 import { Accounts } from 'meteor/accounts-base';
+import { Bert } from 'meteor/themeteorchef:bert';
 
 import PasswordForm from '../components/PasswordForm.jsx';
 
@@ -17,14 +18,16 @@ export default class Signup extends React.Component {
                 // display error message on screen
                 const htmlContent = `<p>ERROR: ${err.reason ? err.reason : 'Unknown error'}</p>`;
                 document.getElementById('error-messages').innerHTML = htmlContent;
+                Bert.alert('There was an error', 'danger', 'growl-top-right');
             } else {
-                // if no error, success! so change to login screen
+                // if no error, success! so login, send verification email and move to root
                 Meteor.loginWithPassword(email, password, (err2) => {
                     if (err2) {
-                        // throw an error
+                        Bert.alert('There was an error', 'danger', 'growl-top-right');
                     } else {
                         Meteor.call('accounts.verify', Meteor.userId(), email);
                         this.props.history.push('/');
+                        Bert.alert('Account created', 'success', 'growl-top-right');
                     }
                 });
             }

@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Accounts } from 'meteor/accounts-base';
 import { Meteor } from 'meteor/meteor';
+import { Bert } from 'meteor/themeteorchef:bert';
 
 import PasswordForm from '../components/PasswordForm.jsx';
 
@@ -25,6 +26,7 @@ export default class AccountEmail extends React.Component {
                         <p>${loginStr}heck your <a href='/account'>account</a>.</p>`;
                     document.getElementById('error-messages').innerHTML = innerStr;
                 } else {
+                    Bert.alert('Email verified', 'success', 'growl-top-right');
                     document.getElementById('success-messages').innerHTML = '<p>Email verified</p>';
                 }
             });
