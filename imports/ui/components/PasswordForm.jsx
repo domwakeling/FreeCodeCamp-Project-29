@@ -12,42 +12,38 @@ export default class PasswordForm extends React.Component {
                     onSubmit={this.props.submitHandler}
                 >
                     {this.props.emailField ? (
-                        <div className="form-group">
+                        <div>
                             <input
                                 type="email"
                                 id="field-email"
-                                className="form-control input-lg"
+                                className="form-control"
                                 placeholder="email"
                             />
                         </div>
                     ) : ''}
-                    <div className="form-group">
+                    <div>
                         <input
                             type="password"
                             id="field-password"
-                            className="form-control input-lg"
+                            className="form-control"
                             placeholder="password"
                         />
                     </div>
                     {this.props.secondPassword ? (
-                        <div className="form-group">
-                            <input
-                                type="password"
-                                id="field-password2"
-                                className="form-control input-lg"
-                                placeholder="password"
-                            />
-                        </div>
-                    ) : ''}
-                    <div className="form-group text-center">
                         <input
-                            type="submit"
-                            id="password-button"
-                            className="btn btn-primary btn-lg btn-block"
-                            value={this.props.buttonText}
+                            type="password"
+                            id="field-password2"
+                            className="form-control"
+                            placeholder="password"
                         />
-                    </div>
-                    <div className="form-group text-center">
+                    ) : ''}
+                    <input
+                        type="submit"
+                        id="password-button"
+                        className="main-button form-button"
+                        value={this.props.buttonText}
+                    />
+                    <div id="field-message">
                         <p className="text-center">
                             {this.props.messageText}
                             <Link to={this.props.linkTo}>{this.props.linkText}</Link>

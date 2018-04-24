@@ -31,8 +31,17 @@ h4 {
     font-size: $font__h4-font-size;
 }
 
-p.lead {
-    font-size: 1.2rem;
+p {
+    margin-bottom: 0.4em;
+    &.inline-before {
+        margin-right: 0.7em;
+    }
+    &.inline-after {
+        margin-left: 0.7em;
+    }
+    &.lead {
+        font-size: 1.2rem;
+    }
 }
 
 strong {
@@ -46,4 +55,8 @@ em {
 sup {
     vertical-align: super;
     font-size: 0.7em;
+}
+
+.inline {
+    display: inline-block;
 }

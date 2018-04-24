@@ -2,3 +2,18 @@
     color: red;
     font-weight: 600;
 }
+
+.form-control {
+    padding: 0.3em;
+    border-radius: 0.25em;
+    border: 1px solid $color__project-theme;
+    margin: 0.3em 0;
+    font-size: $font__forms-size;
+    width: 20em;
+    max-width: 80%;
+}
+
+#field-message {
+    display: inline-block;
+    margin-left: 0.75em;
+}

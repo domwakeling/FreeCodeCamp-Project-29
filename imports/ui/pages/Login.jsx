@@ -66,12 +66,19 @@ export default class Login extends React.Component {
                     secondPassword={false}
                     submitHandler={this.handleSubmit}
                 />
+                <br />
                 {this.state.emailSent ? (
                     <p>Password-reset email sent, please check your inbox.</p>
                 ) : (
-                    <button onClick={this.clickHandler}>
-                        Reset password
-                    </button>
+                    <div>
+                        <p className="inline inline-before">Forgotten your email?</p>
+                        <button
+                            onClick={this.clickHandler}
+                            className="main-button"
+                        >
+                            Reset password
+                        </button>
+                    </div>
                 )}
             </div>
         );
