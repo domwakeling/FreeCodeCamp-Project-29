@@ -16,7 +16,7 @@ class NavBar extends React.Component {
         return (
             <div ref={this.props.navbarRef} className="topNav">
                 <div className="topNavContainer">
-                    <a href="/" className="navBrand">Brand</a>
+                    <a href="/" className="navBrand"><strong>FCC29 Book Swap Club</strong></a>
                     <NavLink exact to="/" activeClassName="selectedPage">Home</NavLink>
                     <NavLink to="/about" activeClassName="selectedPage">About</NavLink>
                     <NavLink to="/topics" activeClassName="selectedPage">Topics</NavLink>
