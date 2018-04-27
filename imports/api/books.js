@@ -57,13 +57,13 @@ if (Meteor.isServer) {
             }
         },
 
-        'books.removeOne': async function removeOneBook(id, user) {
+        'books.removeOne': function removeOneBook(id, user) {
             check(id, String);
             check(user, String);
 
             const oopsError = new Meteor.Error('997', 'Oops, something went wrong!');
             const ownError = new Meteor.Error('998', 'You don\'t own that volume');
-            const book = await Books.findOne({ _id: id });
+            const book = Books.findOne({ _id: id });
 
             if (!book) {
                 throw oopsError;
@@ -77,6 +77,23 @@ if (Meteor.isServer) {
                 } catch (err) {
                     const myError = new Meteor.Error('999', 'Oops, something went wrong!');
                     throw myError;
+                }
+            }
+        },
+
+        'books.proposeTrade': function proposeTrade(id, user) {
+            check([id, user], [String]);
+
+            const oopsError = new Meteor.Error('997', 'Oops, something went wrong!');
+            const book = Books.findOne({ _id: id });
+
+            if (!book) {
+                throw oopsError;
+            } else if (book.user !== user) {
+                try {
+                    Books.update({ _id: id }, { $addToSet: { tradeOffers: user } });
+                } catch (err) {
+                    throw oopsError;
                 }
             }
         },

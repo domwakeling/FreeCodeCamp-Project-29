@@ -36,6 +36,31 @@
         padding: 0.7em 1.0em 0.7em;
         margin: 0 1.0em 1.0em 0;
         border-radius: 0.5em;
+
+        div.trade-count-wrapper {
+            position: absolute;
+
+            div.trade-count {
+                position: relative;
+                font-weight: 600;
+                color: red;
+                padding: 0.5em;
+                background-color: $color__default;
+                width: 2.2em;
+                height: 2.2em;
+                border: 1px solid white;
+                border-radius: 1.1em;
+                top: 220px;
+                left: 100px;
+
+                p {
+                    position: relative;
+                    text-align: center;
+                    top: -0.2em;
+                    color: white;
+                }
+            }
+        }
     }
 
     button {

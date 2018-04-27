@@ -27,6 +27,20 @@ class Home extends React.Component {
         );
     }
 
+    async proposeTradeHandler(event, _id) {
+        event.preventDefault();
+        await Meteor.call(
+            'books.proposeTrade', _id, this.props.user._id,
+            (err) => {
+                if (err) {
+                    Bert.alert(err.reason, 'danger', 'growl-top-right');
+                } else {
+                    Bert.alert('Trade proposal made', 'success', 'growl-top-right');
+                }
+            }
+        );
+    }
+
     addClickHandler(event) {
         event.preventDefault();
         this.props.history.push('/addbook');
@@ -39,6 +53,7 @@ class Home extends React.Component {
 
     renderBooks() {
         this.removeHandler = this.removeHandler.bind(this);
+        this.proposeTradeHandler = this.proposeTradeHandler.bind(this);
         return (
             <div className="books-container">
                 {this.props.books
@@ -56,7 +71,7 @@ class Home extends React.Component {
                             {this.props.user && book.user !== this.props.user._id ? (
                                 <button
                                     className="main-button"
-                                    onClick={e => console.log(e)}
+                                    onClick={(e) => { this.proposeTradeHandler(e, book._id); }}
                                 >
                                     Propose trade
                                 </button>
@@ -70,6 +85,13 @@ class Home extends React.Component {
                                 </button>
                             ) : ''}
                             <img src={book.imageURL} alt="" />
+                            {book.tradeOffers && book.tradeOffers.length > 0 ? (
+                                <div className="trade-count-wrapper">
+                                    <div className="trade-count">
+                                        <p>{book.tradeOffers.length}</p>
+                                    </div>
+                                </div>
+                            ) : ''}
                         </div>
                     ))
                 }
@@ -83,37 +105,46 @@ class Home extends React.Component {
         this.filterHandler = this.filterHandler.bind(this);
         return (
             <div>
-                <h2>Home</h2>
                 {this.props.user ? (
                     <div>
-                        <button
-                            className="main-button space-below"
-                            onClick={this.addClickHandler}
-                        >
-                            Add a book
-                        </button>
-                        <div className="dropdown">
-                            <button id="which-books" className="main-button">
-                                {filterModes[this.state.filterMode]}
+                        <div className="button-container">
+                            <button
+                                className="main-button space-below"
+                                onClick={this.addClickHandler}
+                            >
+                                Add a book
                             </button>
-                            <div className="dropdown-content">
-                                {/* eslint-disable-next-line */}
-                                <li onClick={(e) => { this.filterHandler(e, 0); }}>
-                                    {filterModes[0]}
-                                </li>
-                                {/* eslint-disable-next-line */}
-                                <li onClick={(e) => { this.filterHandler(e, 1); }}>
-                                    {filterModes[1]}
-                                </li>
-                                {/* eslint-disable-next-line */}
-                                <li onClick={(e) => { this.filterHandler(e, 2); }}>
-                                    {filterModes[2]}
-                                </li>
+                            <div className="dropdown">
+                                <button id="which-books" className="main-button">
+                                    {filterModes[this.state.filterMode]}
+                                </button>
+                                <div className="dropdown-content">
+                                    {/* eslint-disable-next-line */}
+                                    <li onClick={(e) => { this.filterHandler(e, 0); }}>
+                                        {filterModes[0]}
+                                    </li>
+                                    {/* eslint-disable-next-line */}
+                                    <li onClick={(e) => { this.filterHandler(e, 1); }}>
+                                        {filterModes[1]}
+                                    </li>
+                                    {/* eslint-disable-next-line */}
+                                    <li onClick={(e) => { this.filterHandler(e, 2); }}>
+                                        {filterModes[2]}
+                                    </li>
+                                </div>
                             </div>
                         </div>
+                        {this.renderBooks()}
                     </div>
-                ) : ''}
-                {this.renderBooks()}
+                ) : (
+                    <div>
+                        <h2>Welcome</h2>
+                        <p>Please <a href="/login">sign in</a> or <a href="/signup">create an&nbsp;
+                            {/* eslint-disable-next-line react/jsx-closing-tag-location */}
+                            account</a> to see what books are available and start trading!
+                        </p>
+                    </div>
+                )}
             </div>
         );
     }
