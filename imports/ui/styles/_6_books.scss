@@ -1,6 +1,60 @@
- .book-search-result {
-     padding: 1.0em;
-     margin: 1.0em 0.5em 1.0em 0;
-     border: $color__project-theme solid 1px;
-     border-radius: 0.5em ;
+.books-search-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    .book-search-result {
+        flex-grow: 1;
+        @include for-phone-only {
+            width: 100%;
+        }
+        @include for-tablet-portrait-up {
+            width: 45%;
+        }
+
+        padding: 1.0em;
+        margin: 0.5em 0.5em 0.5em 0;
+        background-color: lighten($color__project-theme, 30%);
+        border-radius: 0.5em ;
+
+        img {
+            float:right;
+        }
+    }
+}
+
+.books-container {
+    clear: both;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    .book-display {
+        display: flex;
+        flex-direction: column;
+        background-color: lighten($color__project-theme, 30%);
+        padding: 0.7em 1.0em 0.7em;
+        margin: 0 1.0em 1.0em 0;
+        border-radius: 0.5em;
+    }
+
+    button {
+        margin-bottom: 0.5em;
+    }
+
+}
+
+button.remove-button, button.cancel-button {
+    background-color: $color__alert;
+    &:hover {
+        background-color: lighten($color__alert, 10%);
+    }
+}
+
+button.cancel-button {
+    margin-left: 1.0em;
+}
+
+button.space-below {
+    margin-bottom: 1.0em;
 }

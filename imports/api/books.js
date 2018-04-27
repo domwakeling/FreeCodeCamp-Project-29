@@ -7,16 +7,6 @@ import { Promise } from 'meteor/promise';
 const Books = new Mongo.Collection('books');
 const API_KEY = Meteor.settings.GOOGLE_BOOKS_API_KEY;
 const endPoint = 'https://www.googleapis.com/books/v1/volumes?q=';
-/* TO CONSIDER:
- *
- * Do we have a document for each book which then can be offered by more than one user?
- * What's the difference between 'insert' and 'update' on Mongo? (does update immediately create?)
- * Are we going to have a schema?
- */
-
-/* By the time we call addOne we must have ratified the ISBN ...
- * ... and know that user is logged in (only have button appear when user is active?)
- */
 
 async function apiCallGet(apiUrl) {
     return new Promise((resolve, reject) => {
@@ -31,6 +21,10 @@ async function apiCallGet(apiUrl) {
         }
     });
 }
+
+// if (Meteor.isServer) {
+//     Meteor.publish('books', () => Books.find({}));
+// }
 
 if (Meteor.isServer) {
     Meteor.methods({
@@ -63,12 +57,28 @@ if (Meteor.isServer) {
             }
         },
 
-        'books.removeOne': function removeOneBook(_id) {
-            check(_id, String);
+        'books.removeOne': async function removeOneBook(id, user) {
+            check(id, String);
+            check(user, String);
 
-            Books.remove({
-                id: _id
-            });
+            const oopsError = new Meteor.Error('997', 'Oops, something went wrong!');
+            const ownError = new Meteor.Error('998', 'You don\'t own that volume');
+            const book = await Books.findOne({ _id: id });
+
+            if (!book) {
+                throw oopsError;
+            } else if (book.user !== user) {
+                throw ownError;
+            } else {
+                try {
+                    Books.remove({
+                        _id: id
+                    });
+                } catch (err) {
+                    const myError = new Meteor.Error('999', 'Oops, something went wrong!');
+                    throw myError;
+                }
+            }
         },
 
         'books.searchAPI': async function searchAPI(options) {

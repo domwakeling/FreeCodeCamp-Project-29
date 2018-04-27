@@ -18,7 +18,7 @@ $desktop-large-min: 1800px;
         @content;
     }
 }
-@mixin for-tablet-portait-only {
+@mixin for-tablet-portrait-only {
      @media (min-width: $tablet-portrait-min) and (max-width: $tablet-portrait-max){
         @content;
     }

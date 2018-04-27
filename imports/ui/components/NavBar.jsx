@@ -19,7 +19,7 @@ class NavBar extends React.Component {
                     <a href="/" className="navBrand"><strong>FCC29 Book Swap Club</strong></a>
                     <NavLink exact to="/" activeClassName="selectedPage">Home</NavLink>
                     <NavLink to="/about" activeClassName="selectedPage">About</NavLink>
-                    <NavLink to="/topics" activeClassName="selectedPage">Topics</NavLink>
+                    {/* <NavLink to="/topics" activeClassName="selectedPage">Topics</NavLink> */}
                     { Meteor.userId() ?
                         (<NavLink to="/account" activeClassName="selectedPage">Account</NavLink>) :
                         ('')

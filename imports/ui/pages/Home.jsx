@@ -1,123 +1,96 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
+import { withTracker } from 'meteor/react-meteor-data';
+import PropTypes from 'prop-types';
 import { Bert } from 'meteor/themeteorchef:bert';
+import Books from '../../api/books.js';
 
-export default class Home extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            books: [],
-            authors: '',
-            bookTitle: ''
-        };
-        this.addBook = this.addBook.bind(this);
-    }
-
-    async addBook(event, bookId) {
+class Home extends React.Component {
+    async removeHandler(event, _id) {
         event.preventDefault();
-        const selected = this.state.books.filter(book => book.bookId === bookId);
-        if (selected.length !== 1) {
-            Bert.alert('Oops, something went wrong!', 'danger', 'growl-top-right');
-        } else {
-            const b = selected[0];
-            await Meteor.call(
-                'books.addOne', b.bookTitle, b.authors, b.imageURL, b.bookId, Meteor.userId(),
-                (err) => {
-                    if (err) {
-                        Bert.alert(err.reason, 'danger', 'growl-top-right');
-                    } else {
-                        Bert.alert('Book added', 'success', 'growl-top-right');
-                        this.setState({ books: [] });
-                        document.getElementById('field-title').value = '';
-                        document.getElementById('field-authors').value = '';
-                    }
+        await Meteor.call(
+            'books.removeOne', _id, this.props.user._id,
+            (err) => {
+                if (err) {
+                    Bert.alert(err.reason, 'danger', 'growl-top-right');
+                } else {
+                    Bert.alert('Book removed', 'success', 'growl-top-right');
                 }
-            );
-        }
+            }
+        );
     }
 
-    searchHandler(event) {
+    addClickHandler(event) {
         event.preventDefault();
-        const options = {
-            bookTitle: this.state.bookTitle,
-            author: this.state.authors
-        };
-        if (!options.bookTitle && !options.author) {
-            Bert.alert('What did you want to search?', 'warning', 'growl-top-right');
-        } else {
-            Meteor.call('books.searchAPI', options, (error, result) => {
-                if (error) {
-                    Bert.alert('Something went wrong', 'danger', 'growl-top-right');
-                } else if (result) {
-                    this.setState({
-                        books: result
-                    });
-                }
-            });
-        }
-    }
-
-    handleChange(event, field) {
-        const newValue = event.target.value ? event.target.value : '';
-        this.setState({
-            [field]: newValue
-        });
+        this.props.history.push('/addbook');
     }
 
     renderBooks() {
-        return this.state.books.map((book) => {
-            const authors = book.authors.length !== 0 ? book.authors[0] : '';
-            return (
-                <div key={book.bookId} className="book-search-result">
-                    <h3>{book.bookTitle}</h3>
-                    <p>{authors }</p>
-                    <button
-                        className="main-button"
-                        onClick={e => this.addBook(e, book.bookId)}
-                    >
-                        Add to my books
-                    </button>
-                    <img src={book.imageURL} alt="" />
-                </div>
-            );
-        });
+        this.removeHandler = this.removeHandler.bind(this);
+        return (
+            <div className="books-container">
+                {this.props.books.map(book => (
+                    <div key={book.bookId} className="book-display">
+                        {this.props.user && book.user !== this.props.user._id ? (
+                            <button
+                                className="main-button"
+                                onClick={e => console.log(e)}
+                            >
+                                Propose trade
+                            </button>
+                        ) : '' }
+                        {this.props.user && book.user === this.props.user._id ? (
+                            <button
+                                className="main-button remove-button"
+                                onClick={(e) => { this.removeHandler(e, book._id); }}
+                            >
+                                Remove book
+                            </button>
+                        ) : ''}
+                        <img src={book.imageURL} alt="" />
+                    </div>
+                ))}
+            </div>
+        );
     }
 
+
     render() {
-        this.searchHandler = this.searchHandler.bind(this);
-        this.handleChange = this.handleChange.bind(this);
         this.renderBooks = this.renderBooks.bind(this);
+        this.addClickHandler = this.addClickHandler.bind(this);
         return (
             <div>
                 <h2>Home</h2>
-                <form onSubmit={this.searchHandler}>
+                {this.props.user ? (
                     <div>
-                        <input
-                            type="text"
-                            id="field-title"
-                            className="form-control"
-                            placeholder="book title"
-                            onChange={e => this.handleChange(e, 'bookTitle')}
-                        />
+                        <button
+                            className="main-button space-below"
+                            onClick={this.addClickHandler}
+                        >
+                            Add a book
+                        </button>
                     </div>
-                    <div>
-                        <input
-                            type="text"
-                            id="field-authors"
-                            className="form-control"
-                            placeholder="book author"
-                            onChange={e => this.handleChange(e, 'authors')}
-                        />
-                    </div>
-                    <input
-                        type="submit"
-                        id="password-button"
-                        className="main-button form-button"
-                        value="Search"
-                    />
-                </form>
-                { this.state.books.length > 0 ? this.renderBooks() : '' }
+                ) : ''}
+                {this.renderBooks()}
             </div>
         );
     }
 }
+
+Home.propTypes = {
+    user: PropTypes.shape(),
+    books: PropTypes.arrayOf(PropTypes.shape()),
+    history: PropTypes.shape({
+        push: PropTypes.func
+    }).isRequired
+};
+
+Home.defaultProps = {
+    user: null,
+    books: []
+};
+
+export default withTracker(() => ({
+    user: Meteor.user(),
+    books: Books.find({}).fetch()
+}))(Home);

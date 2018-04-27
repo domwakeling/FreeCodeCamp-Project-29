@@ -7,7 +7,7 @@ import NavBarWithRouter from './NavBar.jsx';
 
 import Home from '../pages/Home.jsx';
 import About from '../pages/About.jsx';
-import Topics from '../pages/Topics.jsx';
+import AddBook from '../pages/AddBook.jsx';
 import AccountPage from '../pages/AccountPage.jsx';
 import Login from '../pages/Login.jsx';
 import Signup from '../pages/Signup.jsx';
@@ -48,8 +48,8 @@ export default class App extends React.Component {
                     <div className="clearfix container">
                         <Switch>
                             <Route exact path="/" component={Home} />
-                            <PrivateRoute path="/about" component={About} />
-                            <PrivateRoute path="/topics" component={Topics} />
+                            <Route path="/about" component={About} />
+                            <PrivateRoute path="/addbook" component={AddBook} />
                             <PrivateRoute path="/account" component={AccountPage} />
                             <Route path="/login" component={Login} />
                             <Route path="/signup" component={Signup} />
