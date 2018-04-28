@@ -83,3 +83,11 @@ button.cancel-button {
 button.space-below {
     margin-bottom: 1.0em;
 }
+
+button.grey-button {
+    background-color: $color__light-grey;
+    color: $color__very-light-grey;
+    &:hover {
+        background-color: lighten($color__light-grey, 5%);
+    }
+}

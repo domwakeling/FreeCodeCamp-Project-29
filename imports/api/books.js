@@ -22,13 +22,10 @@ async function apiCallGet(apiUrl) {
     });
 }
 
-// if (Meteor.isServer) {
-//     Meteor.publish('books', () => Books.find({}));
-// }
-
 if (Meteor.isServer) {
+    //     Meteor.publish('books', () => Books.find({}));
+
     Meteor.methods({
-        // 'books.doesUserHave': async function doesUserHave(bookId, )
 
         'books.addOne': function addBook(bookTitle, authors, imageURL, bookId, userId) {
             check(bookTitle, String);
@@ -85,20 +82,23 @@ if (Meteor.isServer) {
             check([id, user], [String]);
 
             const oopsError = new Meteor.Error('997', 'Oops, something went wrong!');
+            const unavailableError = new Meteor.Error('995', 'Existing offer');
             const book = Books.findOne({ _id: id });
 
             if (!book) {
                 throw oopsError;
+            } else if (book.tradeOffers && book.tradeOffers !== user) {
+                throw unavailableError;
             } else if (book.user !== user) {
                 try {
-                    Books.update({ _id: id }, { $addToSet: { tradeOffers: user } });
+                    Books.update({ _id: id }, { $set: { tradeOffers: user } });
                 } catch (err) {
                     throw oopsError;
                 }
             }
         },
 
-        'books.cancelTrade': function proposeTrade(id, user) {
+        'books.cancelTrade': function cancelTrade(id, user) {
             check([id, user], [String]);
 
             const oopsError = new Meteor.Error('997', 'Oops, something went wrong!');
@@ -106,11 +106,11 @@ if (Meteor.isServer) {
 
             if (!book) {
                 throw oopsError;
-            } else if (!book.tradeOffers || book.tradeOffers.indexOf(user) === -1) {
+            } else if (!book.tradeOffers || book.tradeOffers !== user) {
                 throw oopsError;
             } else if (book.user !== user) {
                 try {
-                    Books.update({ _id: id }, { $pull: { tradeOffers: user } });
+                    Books.update({ _id: id }, { $set: { tradeOffers: '' } });
                 } catch (err) {
                     throw oopsError;
                 }

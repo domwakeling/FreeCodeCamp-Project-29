@@ -1,10 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-
 import PrivateRoute from './PrivateRoute.jsx';
 import Copyright from './Copyright.jsx';
 import NavBarWithRouter from './NavBar.jsx';
-
 import Home from '../pages/Home.jsx';
 import About from '../pages/About.jsx';
 import AddBook from '../pages/AddBook.jsx';
@@ -52,7 +50,7 @@ export default class App extends React.Component {
                             <Route path="/about" component={About} />
                             <PrivateRoute path="/addbook" component={AddBook} />
                             <PrivateRoute path="/account" component={AccountPage} />
-                            <PrivateRoute pathh="/review" component={Review} />
+                            <PrivateRoute path="/review" component={Review} />
                             <Route path="/login" component={Login} />
                             <Route path="/signup" component={Signup} />
                             <Route path="/verify-email/:token" component={AccountEmail} />

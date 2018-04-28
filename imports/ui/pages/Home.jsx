@@ -56,7 +56,7 @@ class Home extends React.Component {
     bookTradeHandler(event, _id) {
         event.preventDefault();
         const book = this.props.books.filter(b => b._id === _id)[0];
-        if (book.tradeOffers && book.tradeOffers.indexOf(this.props.user._id) >= 0) {
+        if (book.tradeOffers && book.tradeOffers === this.props.user._id) {
             this.cancelTrade(_id);
         } else {
             this.proposeTrade(_id);
@@ -92,7 +92,7 @@ class Home extends React.Component {
                         if (this.state.filterMode === 1) {
                             return book.user === userId;
                         } else if (this.state.filterMode === 2) {
-                            return book.tradeOffers && book.tradeOffers.indexOf(userId) >= 0;
+                            return book.tradeOffers && book.tradeOffers === userId;
                         }
                         return true;
                     })
@@ -100,10 +100,14 @@ class Home extends React.Component {
                         <div key={book.bookId} className="book-display">
                             {this.props.user && book.user !== userId ? (
                                 <button
-                                    className="main-button"
+                                    className={book.tradeOffers && book.tradeOffers !== userId ? (
+                                        'main-button grey-button'
+                                    ) : (
+                                        'main-button'
+                                    )}
                                     onClick={(e) => { this.bookTradeHandler(e, book._id); }}
                                 >
-                                    {book.tradeOffers && book.tradeOffers.indexOf(userId) >= 0 ? (
+                                    {book.tradeOffers && book.tradeOffers === userId ? (
                                         'Cancel request'
                                     ) : 'Propose trade'
                                     }
@@ -118,11 +122,9 @@ class Home extends React.Component {
                                 </button>
                             ) : ''}
                             <img src={book.imageURL} alt="" />
-                            {book.tradeOffers && book.tradeOffers.length > 0 ? (
+                            {book.tradeOffers && book.tradeOffers !== '' ? (
                                 <div className="trade-count-wrapper">
-                                    <div className="trade-count">
-                                        <p>{book.tradeOffers.length}</p>
-                                    </div>
+                                    <div className="trade-count" />
                                 </div>
                             ) : ''}
                         </div>
