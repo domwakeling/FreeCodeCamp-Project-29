@@ -44,7 +44,7 @@ if (Meteor.isServer) {
                 Books.insert({
                     bookTitle,
                     authors,
-                    imageURL,
+                    imageURL: imageURL.replace('http://', 'https://'),
                     bookId,
                     user: userId,
                     createdAt: new Date()
