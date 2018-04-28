@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { Bert } from 'meteor/themeteorchef:bert';
 import Books from '../../api/books.js';
 
-const filterModes = ['All books', 'My books', 'My trades'];
+const filterModes = ['All books', 'My books', 'My requests'];
 
 class Home extends React.Component {
     constructor(props) {
@@ -27,8 +27,7 @@ class Home extends React.Component {
         );
     }
 
-    async proposeTradeHandler(event, _id) {
-        event.preventDefault();
+    async proposeTrade(_id) {
         await Meteor.call(
             'books.proposeTrade', _id, this.props.user._id,
             (err) => {
@@ -41,9 +40,40 @@ class Home extends React.Component {
         );
     }
 
+    async cancelTrade(_id) {
+        await Meteor.call(
+            'books.cancelTrade', _id, this.props.user._id,
+            (err) => {
+                if (err) {
+                    Bert.alert(err.reason, 'danger', 'growl-top-right');
+                } else {
+                    Bert.alert('Trade request cancelled', 'success', 'growl-top-right');
+                }
+            }
+        );
+    }
+
+    bookTradeHandler(event, _id) {
+        event.preventDefault();
+        const book = this.props.books.filter(b => b._id === _id)[0];
+        if (book.tradeOffers && book.tradeOffers.indexOf(this.props.user._id) >= 0) {
+            this.cancelTrade(_id);
+        } else {
+            this.proposeTrade(_id);
+        }
+    }
+
     addClickHandler(event) {
         event.preventDefault();
         this.props.history.push('/addbook');
+    }
+
+    numRequestsToUser() {
+        if (this.props.books.length === 0) return 0;
+        return this.props.books.filter((book) => {
+            if (!book.tradeOffers) return false;
+            return book.user === this.props.user._id;
+        }).length;
     }
 
     filterHandler(e, idx) {
@@ -53,30 +83,33 @@ class Home extends React.Component {
 
     renderBooks() {
         this.removeHandler = this.removeHandler.bind(this);
-        this.proposeTradeHandler = this.proposeTradeHandler.bind(this);
+        this.bookTradeHandler = this.bookTradeHandler.bind(this);
+        const userId = this.props.user._id;
         return (
             <div className="books-container">
                 {this.props.books
                     .filter((book) => {
                         if (this.state.filterMode === 1) {
-                            return book.user === this.props.user._id;
+                            return book.user === userId;
                         } else if (this.state.filterMode === 2) {
-                            // TODO - add filter for trades
-                            return true;
+                            return book.tradeOffers && book.tradeOffers.indexOf(userId) >= 0;
                         }
                         return true;
                     })
                     .map(book => (
                         <div key={book.bookId} className="book-display">
-                            {this.props.user && book.user !== this.props.user._id ? (
+                            {this.props.user && book.user !== userId ? (
                                 <button
                                     className="main-button"
-                                    onClick={(e) => { this.proposeTradeHandler(e, book._id); }}
+                                    onClick={(e) => { this.bookTradeHandler(e, book._id); }}
                                 >
-                                    Propose trade
+                                    {book.tradeOffers && book.tradeOffers.indexOf(userId) >= 0 ? (
+                                        'Cancel request'
+                                    ) : 'Propose trade'
+                                    }
                                 </button>
                             ) : '' }
-                            {this.props.user && book.user === this.props.user._id ? (
+                            {this.props.user && book.user === userId ? (
                                 <button
                                     className="main-button remove-button"
                                     onClick={(e) => { this.removeHandler(e, book._id); }}
@@ -103,6 +136,7 @@ class Home extends React.Component {
         this.renderBooks = this.renderBooks.bind(this);
         this.addClickHandler = this.addClickHandler.bind(this);
         this.filterHandler = this.filterHandler.bind(this);
+        this.numRequestsToUser = this.numRequestsToUser.bind(this);
         return (
             <div>
                 {this.props.user ? (
@@ -113,6 +147,19 @@ class Home extends React.Component {
                                 onClick={this.addClickHandler}
                             >
                                 Add a book
+                            </button>
+                            <button
+                                className="main-button space-below"
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    this.props.history.push('/review');
+                                }}
+                            >
+                                {this.numRequestsToUser() > 0 ? (
+                                    `Review requests received (${this.numRequestsToUser()})`
+                                ) : (
+                                    'No requests'
+                                )}
                             </button>
                             <div className="dropdown">
                                 <button id="which-books" className="main-button">

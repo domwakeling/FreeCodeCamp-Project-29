@@ -98,6 +98,25 @@ if (Meteor.isServer) {
             }
         },
 
+        'books.cancelTrade': function proposeTrade(id, user) {
+            check([id, user], [String]);
+
+            const oopsError = new Meteor.Error('997', 'Oops, something went wrong!');
+            const book = Books.findOne({ _id: id });
+
+            if (!book) {
+                throw oopsError;
+            } else if (!book.tradeOffers || book.tradeOffers.indexOf(user) === -1) {
+                throw oopsError;
+            } else if (book.user !== user) {
+                try {
+                    Books.update({ _id: id }, { $pull: { tradeOffers: user } });
+                } catch (err) {
+                    throw oopsError;
+                }
+            }
+        },
+
         'books.searchAPI': async function searchAPI(options) {
             check(options, { bookTitle: String, author: String });
             try {
