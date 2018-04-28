@@ -117,6 +117,41 @@ if (Meteor.isServer) {
             }
         },
 
+        'books.rejectTrade': function rejectTrade(id, user) {
+            check([id, user], [String]);
+
+            const oopsError = new Meteor.Error('997', 'Oops, something went wrong!');
+            const book = Books.findOne({ _id: id });
+
+            if (!book || !book.tradeOffers || book.tradeOffers === '' || book.user !== user) {
+                throw oopsError;
+            } else {
+                try {
+                    Books.update({ _id: id }, { $set: { tradeOffers: '' } });
+                } catch (err) {
+                    throw oopsError;
+                }
+            }
+        },
+
+        'books.acceptTrade': function rejectTrade(id, user) {
+            check([id, user], [String]);
+
+            const oopsError = new Meteor.Error('997', 'Oops, something went wrong!');
+            const book = Books.findOne({ _id: id });
+
+            if (!book || !book.tradeOffers || book.tradeOffers === '' || book.user !== user) {
+                throw oopsError;
+            } else {
+                const newUserId = book.tradeOffers;
+                try {
+                    Books.update({ _id: id }, { $set: { tradeOffers: user, user: newUserId } });
+                } catch (err) {
+                    throw oopsError;
+                }
+            }
+        },
+
         'books.searchAPI': async function searchAPI(options) {
             check(options, { bookTitle: String, author: String });
             try {
