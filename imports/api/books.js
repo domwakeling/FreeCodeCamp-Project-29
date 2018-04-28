@@ -172,8 +172,9 @@ if (Meteor.isServer) {
                         bookId: item.id,
                         bookTitle: info.title,
                         authors: info.authors ? info.authors : [],
-                        /* eslint-disable-next-line no-mixed-operators */
-                        imageURL: info.imageLinks && info.imageLinks.thumbnail || ''
+                        /* eslint-disable no-mixed-operators */
+                        imageURL: info.imageLinks && info.imageLinks.thumbnail &&
+                                  info.imageLinks.thumbnail.replace('http://', 'https://') || ''
                     };
                     return reducedItem;
                 }) : [];
