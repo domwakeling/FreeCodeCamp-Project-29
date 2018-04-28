@@ -23,7 +23,7 @@ async function apiCallGet(apiUrl) {
 }
 
 if (Meteor.isServer) {
-    //     Meteor.publish('books', () => Books.find({}));
+    Meteor.publish('books', () => Books.find({}));
 
     Meteor.methods({
 

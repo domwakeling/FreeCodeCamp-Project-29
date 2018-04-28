@@ -8,7 +8,8 @@ class AccountPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            emailSent: false
+            emailSent: false,
+            deleteButtonState: false
         };
     }
 
@@ -26,6 +27,22 @@ class AccountPage extends React.Component {
                 });
             }
         });
+    }
+
+    deleteHandler(event) {
+        event.preventDefault();
+        if (!this.state.deleteButtonState) {
+            this.setState({ deleteButtonState: true });
+        } else {
+            Meteor.call('accounts.delete', this.props.user._id, (err) => {
+                if (err) {
+                    Bert.alert('There was an error', 'danger', 'growl-top-right');
+                } else {
+                    Bert.alert('Account deleted', 'success', 'growl-top-right');
+                    this.props.history.push('/');
+                }
+            });
+        }
     }
 
     handleChange(event, field) {
@@ -65,6 +82,7 @@ class AccountPage extends React.Component {
         this.resendClickHandler = this.resendClickHandler.bind(this);
         this.updateDetailsHandler = this.updateDetailsHandler.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.deleteHandler = this.deleteHandler.bind(this);
         const userName = this.determineFieldValue('userName');
         const userCity = this.determineFieldValue('userCity');
         const userState = this.determineFieldValue('userState');
@@ -150,6 +168,16 @@ class AccountPage extends React.Component {
                                 )}
                             </div>
                         )}
+                        <button
+                            className="main-button remove-button"
+                            onClick={this.deleteHandler}
+                        >
+                            {this.state.deleteButtonState ? (
+                                'Confirm delete account'
+                            ) : (
+                                'Delete account'
+                            )}
+                        </button>
                     </div>
                 ) : <p>Loading...</p>}
             </div>
@@ -158,7 +186,10 @@ class AccountPage extends React.Component {
 }
 
 AccountPage.propTypes = {
-    user: PropTypes.shape()
+    user: PropTypes.shape(),
+    history: PropTypes.shape({
+        push: PropTypes.func
+    }).isRequired
 };
 
 AccountPage.defaultProps = {

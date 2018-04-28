@@ -212,7 +212,11 @@ Home.defaultProps = {
     books: []
 };
 
-export default withTracker(() => ({
-    user: Meteor.user(),
-    books: Books.find({}).fetch()
-}))(Home);
+export default withTracker(() => {
+    Meteor.subscribe('books');
+
+    return {
+        user: Meteor.user(),
+        books: Books.find({}).fetch()
+    };
+})(Home);

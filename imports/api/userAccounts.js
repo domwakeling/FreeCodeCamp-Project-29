@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';
 import { check, Match } from 'meteor/check';
+import Books from './books.js';
 
 if (Meteor.isServer) {
     Meteor.methods({
@@ -35,6 +36,13 @@ if (Meteor.isServer) {
                 }
             };
             Meteor.users.update({ _id: userId }, { $set: updateSet });
+        },
+
+        'accounts.delete': function deleteAccount(userId) {
+            check(userId, String);
+            Books.update({ tradeOffers: userId }, { $set: { tradeOffers: '' } }, { multi: true });
+            Books.remove({ user: userId });
+            Meteor.users.remove(userId);
         }
     });
 
@@ -54,10 +62,3 @@ if (Meteor.isServer) {
         return retStr;
     };
 }
-
-// Meteor.methods({
-//     'testing.addSleep': function adding(x, y) {
-//         Meteor.sleep(500);
-//         return x + "+" + y;
-//     }
-// });
