@@ -8,25 +8,8 @@ class AccountPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            emailSent: false,
             deleteButtonState: false
         };
-    }
-
-    resendClickHandler(event) {
-        event.preventDefault();
-        const userId = Meteor.userId();
-        const email = this.props.user.emails[0].address;
-        Meteor.call('accounts.verify', userId, email, (err) => {
-            if (err) {
-                Bert.alert('There was an error', 'danger', 'growl-top-right');
-            } else {
-                Bert.alert('Email re-sent', 'success', 'growl-top-right');
-                this.setState({
-                    emailSent: true
-                });
-            }
-        });
     }
 
     deleteHandler(event) {
@@ -79,7 +62,6 @@ class AccountPage extends React.Component {
     }
 
     render() {
-        this.resendClickHandler = this.resendClickHandler.bind(this);
         this.updateDetailsHandler = this.updateDetailsHandler.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.deleteHandler = this.deleteHandler.bind(this);
@@ -95,79 +77,62 @@ class AccountPage extends React.Component {
                 {this.props.user && this.props.user.emails ? (
                     <div>
                         <p>{this.props.user.emails[0].address}</p>
-                        {this.props.user.emails[0].verified ? (
-                            <div>
-                                <p>Account verified.</p>
-                                <form onSubmit={this.updateDetailsHandler}>
-                                    <div>
-                                        <input
-                                            type="text"
-                                            id="field-name"
-                                            className="form-control"
-                                            placeholder="name"
-                                            value={userName}
-                                            onChange={e => this.handleChange(e, 'userName')}
-                                        />
-                                    </div>
-                                    <div>
-                                        <input
-                                            type="text"
-                                            id="field-city"
-                                            className="form-control"
-                                            placeholder="town or city"
-                                            value={userCity}
-                                            onChange={e => this.handleChange(e, 'userCity')}
-                                        />
-                                    </div>
-                                    <div>
-                                        <input
-                                            type="text"
-                                            id="field-state"
-                                            className="form-control"
-                                            placeholder="state"
-                                            value={userState}
-                                            onChange={e => this.handleChange(e, 'userState')}
-                                        />
-                                    </div>
-                                    <div>
-                                        <input
-                                            type="text"
-                                            id="field-country"
-                                            className="form-control"
-                                            placeholder="country"
-                                            value={userCountry}
-                                            onChange={e => this.handleChange(e, 'userCountry')}
-                                        />
-                                    </div>
+                        <div>
+                            <form onSubmit={this.updateDetailsHandler}>
+                                <div>
                                     <input
-                                        type="submit"
-                                        id="password-button"
-                                        className="main-button form-button"
-                                        value="Update details"
+                                        type="text"
+                                        id="field-name"
+                                        className="form-control"
+                                        placeholder="name"
+                                        value={userName}
+                                        onChange={e => this.handleChange(e, 'userName')}
                                     />
-                                </form>
-                                <p style={{ paddingTop: '0.5em', fontStyle: 'italic' }}>
-                                    Providing this information is optional. We
-                                    will <strong>not</strong> share any information that you
-                                    provide.
-                                </p>
+                                </div>
+                                <div>
+                                    <input
+                                        type="text"
+                                        id="field-city"
+                                        className="form-control"
+                                        placeholder="town or city"
+                                        value={userCity}
+                                        onChange={e => this.handleChange(e, 'userCity')}
+                                    />
+                                </div>
+                                <div>
+                                    <input
+                                        type="text"
+                                        id="field-state"
+                                        className="form-control"
+                                        placeholder="state"
+                                        value={userState}
+                                        onChange={e => this.handleChange(e, 'userState')}
+                                    />
+                                </div>
+                                <div>
+                                    <input
+                                        type="text"
+                                        id="field-country"
+                                        className="form-control"
+                                        placeholder="country"
+                                        value={userCountry}
+                                        onChange={e => this.handleChange(e, 'userCountry')}
+                                    />
+                                </div>
+                                <input
+                                    type="submit"
+                                    id="password-button"
+                                    className="main-button form-button"
+                                    value="Update details"
+                                />
+                            </form>
+                            <p style={{ paddingTop: '0.5em', fontStyle: 'italic' }}>
+                                Providing this information is optional. We
+                                will <strong>not</strong> share any information that you
+                                provide.
+                            </p>
 
-                            </div>
-                        ) : (
-                            <div>
-                                <p className="inline inline-before">Account not verified.</p>
-                                {this.state.emailSent ? (
-                                    <p>Verification email sent, please check your inbox.</p>
-                                ) : (
-                                    <button
-                                        onClick={this.resendClickHandler}
-                                        className="main-button"
-                                    >
-                                        Resend verification email
-                                    </button>
-                                )}
-                            </div>
-                        )}
+                        </div>
                         <button
                             className="main-button remove-button"
                             onClick={this.deleteHandler}

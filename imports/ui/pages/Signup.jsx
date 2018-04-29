@@ -39,11 +39,8 @@ export default class Signup extends React.Component {
         return (
             <div>
                 <h2>Sign Up</h2>
-                <p>This site uses email and password for account sign-up and login. A verification
-                    email will be sent to the address you provide, and once verified you will have
-                    the ability to reset your password if you forget it.
-                </p>
-                <p>Your email address will <strong>not</strong> be shared and
+                <p>This site uses email and password for account sign-up and login. Your email
+                    address will <strong>not</strong> be shared and
                     will <strong>only</strong> be used for the purposes outlined above.
                 </p>
                 <div id="error-messages" />

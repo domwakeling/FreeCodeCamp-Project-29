@@ -10,7 +10,6 @@ import AccountPage from '../pages/AccountPage.jsx';
 import Login from '../pages/Login.jsx';
 import Signup from '../pages/Signup.jsx';
 import NoMatch from '../pages/NoMatch.jsx';
-import AccountEmail from '../pages/AccountEmail.jsx';
 import Review from '../pages/Review.jsx';
 
 export default class App extends React.Component {
@@ -53,8 +52,6 @@ export default class App extends React.Component {
                             <PrivateRoute path="/review" component={Review} />
                             <Route path="/login" component={Login} />
                             <Route path="/signup" component={Signup} />
-                            <Route path="/verify-email/:token" component={AccountEmail} />
-                            <Route path="/reset-password/:token" component={AccountEmail} />
                             <Route component={NoMatch} />
                         </Switch>
                         <Copyright

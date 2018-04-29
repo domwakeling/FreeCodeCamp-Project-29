@@ -30,9 +30,6 @@ export default class AddBook extends React.Component {
                     } else {
                         Bert.alert('Book added', 'success', 'growl-top-right');
                         this.props.history.push('/');
-                        // this.setState({ books: [] });
-                        // document.getElementById('field-title').value = '';
-                        // document.getElementById('field-authors').value = '';
                     }
                 }
             );
@@ -41,6 +38,8 @@ export default class AddBook extends React.Component {
 
     searchHandler(event) {
         event.preventDefault();
+        // clear the state so 'searching...' shows if we do a second search without adding
+        this.setState({ books: [] });
         const options = {
             bookTitle: this.state.bookTitle,
             author: this.state.authors

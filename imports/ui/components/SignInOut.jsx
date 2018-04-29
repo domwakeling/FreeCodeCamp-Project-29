@@ -3,7 +3,7 @@ import { Meteor } from 'meteor/meteor';
 import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
 
-class SignInOut extends React.Component {
+export class SignInOut extends React.Component {
     signInOutHandler(event) {
         event.preventDefault();
         if (this.props.userId) {

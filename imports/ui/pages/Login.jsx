@@ -5,13 +5,6 @@ import PropTypes from 'prop-types';
 import PasswordForm from '../components/PasswordForm.jsx';
 
 export default class Login extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            emailSent: false
-        };
-    }
-
     handleSubmit(event) {
         event.preventDefault();
         const email = document.getElementById('field-email').value;
@@ -31,29 +24,8 @@ export default class Login extends React.Component {
         });
     }
 
-    clickHandler(event) {
-        event.preventDefault();
-        const email = document.getElementById('field-email').value;
-        if (!email) {
-            const message = '<p>Please enter the email address associated with your account.</p>';
-            document.getElementById('error-messages').innerHTML = message;
-        } else {
-            Meteor.call('accounts.reset', email, (err) => {
-                if (err) {
-                    document.getElementById('error-messages').innerHTML = `<p>${err.reason}</p>`;
-                } else {
-                    document.getElementById('error-messages').innerHTML = '';
-                    this.setState({
-                        emailSent: true
-                    });
-                }
-            });
-        }
-    }
-
     render() {
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.clickHandler = this.clickHandler.bind(this);
         return (
             <div>
                 <h2>Sign In</h2>
@@ -66,20 +38,6 @@ export default class Login extends React.Component {
                     secondPassword={false}
                     submitHandler={this.handleSubmit}
                 />
-                <br />
-                {this.state.emailSent ? (
-                    <p>Password-reset email sent, please check your inbox.</p>
-                ) : (
-                    <div>
-                        <p className="inline inline-before">Forgotten your email?</p>
-                        <button
-                            onClick={this.clickHandler}
-                            className="main-button"
-                        >
-                            Reset password
-                        </button>
-                    </div>
-                )}
             </div>
         );
     }

@@ -4,7 +4,6 @@
     flex-wrap: wrap;
 
     .book-search-result {
-        flex-grow: 1;
         @include for-phone-only {
             width: 100%;
         }
@@ -34,8 +33,17 @@
         flex-direction: column;
         background-color: lighten($color__project-theme, 30%);
         padding: 0.7em 1.0em 0.7em;
-        margin: 0 1.0em 1.0em 0;
         border-radius: 0.5em;
+        @include for-phone-only {
+            margin: 0 0.75em 1.0em 0.75em;
+        }
+        @include for-tablet-portrait-only {
+            margin: 0 0.75em 1.0em 0.75em;
+        }
+        @include for-tablet-landscape-up {
+            margin: 0 0.55em 1.0em 0.55em;
+        }
+
 
         div.trade-count-wrapper {
             position: absolute;
