@@ -18,7 +18,7 @@ describe('SignInOut', () => {
         const item = Enzyme.shallow(<SignInOut history={history} />);
 
         // test
-        assert.strictEqual(item.text(), 'Sign in');
+        assert.equal(item.text(), 'Sign in');
     });
 
     it('should render "sign out" when signed in', () => {
@@ -27,6 +27,6 @@ describe('SignInOut', () => {
         const item = Enzyme.shallow(<SignInOut history={history} userId="someId" />);
 
         // test
-        assert.strictEqual(item.text(), 'Sign out');
+        assert.equal(item.text(), 'Sign out');
     });
 });

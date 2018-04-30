@@ -6,7 +6,7 @@
     }
 }
 
-.main-button {
+.main-button, input[type=submit].main-button {
     @include btn;
     border-radius: 3px;
     color: white;

@@ -1,51 +1,19 @@
-/*********************************************
-/ 0. RESET
-/********************************************/
+@import url( 'https://fonts.googleapis.com/css?family=Open+Sans:300,500');
+@import url( 'https://fonts.googleapis.com/css?family=Crete+Round');
 @import "../imports/ui/styles/_0_reset.scss";
-
-/*********************************************
-/ 1. GENERAL VARIABLES
-/********************************************/
 @import "../imports/ui/styles/_1_colors.scss";
 @import "../imports/ui/styles/_1_fonts.scss";
 @import "../imports/ui/styles/_1_typesize.scss";
-
-/*********************************************
-/ 2. RESPONSIVE VARIABLES & MIXINS
-/********************************************/
 @import "../imports/ui/styles/_2_responsive.scss";
-
-/*********************************************
-/ 3. PAGE LAYOUT
-/********************************************/
 @import "../imports/ui/styles/_3_layout.scss";
-
-/*********************************************
-/ 4. APPLY TEXT STYLES, COLORS, SIZES
-/********************************************/
 @import "../imports/ui/styles/_4_text.scss";
-
-/*********************************************
-/ 5. MINOR STYLE COMPONENTS
-/********************************************/
 @import "../imports/ui/styles/_5_links.scss";
 @import "../imports/ui/styles/_5_buttons.scss";
-// @import "../imports/ui/styles/_5_borders.scss";
-// @import "../imports/ui/styles/_5_inputs.scss";
-
-/*********************************************
-/ 6. MAJOR STYLE COMPONENTS
-/********************************************/
 @import "../imports/ui/styles/_6_navigation.scss";
 @import "../imports/ui/styles/_6_404.scss";
 @import "../imports/ui/styles/_6_copyright.scss";
 @import "../imports/ui/styles/_6_accounts.scss";
 @import "../imports/ui/styles/_6_books.scss";
 @import "../imports/ui/styles/_6_dropdowns.scss";
-// @import "../imports/ui/styles/_6_modal.scss";
-// @import "../imports/ui/styles/_6_footer.scss";
-
-/*********************************************
-/ 7. UTILITIES
-/********************************************/
 @import "../imports/ui/styles/_7_utilities.scss";
+
